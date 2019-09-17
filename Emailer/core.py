@@ -54,7 +54,7 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
             part = MIMEBase('application', 'octet-stream')
             part.set_payload(attachment.read())
         encoders.encode_base64(part)
-        part.add_header(f"Content-Disposition', 'attachment; filename= {attachment_file.name}")
+        part.add_header('Content-Disposition', f'attachment; filename= {attachment_file.name}')
         message.attach(part)
 
     #stringify the message
