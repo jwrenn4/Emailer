@@ -50,12 +50,21 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
 
     #create the attachment if present
     if attachment_file:
-        with open(attachment_file, 'rb') as attachment:
-            part = MIMEBase('application', 'octet-stream')
-            part.set_payload(attachment.read())
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f'attachment; filename= {attachment_file.name}')
-        message.attach(part)
+        if isinstance(attachment_file, pathlib.Path):
+            with open(attachment_file, 'rb') as attachment:
+                part = MIMEBase('application', 'octet-stream')
+                part.set_payload(attachment.read())
+            encoders.encode_base64(part)
+            part.add_header('Content-Disposition', f'attachment; filename= {attachment_file.name}')
+            message.attach(part)
+        elif isinstance(attachment_file, list):
+            for f in attachment_file:
+                with open(f, 'rb') as attachment:
+                    part = MIMEBase('application', 'octet-stream')
+                    part.set_payload(attachment.read())
+                encoders.encode_base64(part)
+                part.add_header('Content-Disposition', f'attachment; filename= {f.name}')
+                message.attach(part)
 
     #stringify the message
     text = message.as_string()
