@@ -68,7 +68,7 @@ class Emailer:
             The subject of the email
         message : str
             The message to include in the email
-        attachment_file : pathlib.Path object or None (default None)
+        attachment_file : pathlib.Path object, str, or None (default None)
             If present, the path to a file to attach to the email
         verbose : bool (default False)
             If True, prints out to the console after the message was sent
