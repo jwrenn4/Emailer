@@ -22,7 +22,7 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
         The subject of the email
     body : str
         The text body of the message
-    attachment_file : pathlib.Path object, str, or None (default None)
+    attachment_file : pathlib.Path object, or None (default None)
         The path to the attachment, if desired
     smtp_address : str (default smtp.gmail.com)
         The url to identify the smtp server to use.  By default, assumes gmail
@@ -51,7 +51,7 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
 
     #create the attachment if present
     if attachment_file:
-        if isinstance(attachment_file, (pathlib.Path, str)):
+        if isinstance(attachment_file, pathlib.Path):
             with open(attachment_file, 'rb') as attachment:
                 part = MIMEBase('application', 'octet-stream')
                 part.set_payload(attachment.read())
