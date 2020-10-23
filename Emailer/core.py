@@ -7,8 +7,18 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(from_address, password, to_addresses, subject, body, attachment_file = None, smtp_address = 'smtp.gmail.com', port = 465, verbose = False):
-
+def send_email(
+        from_address,
+        password,
+        to_addresses,
+        subject,
+        body,
+        attachment_file = None,
+        smtp_address = 'smtp.google.com',
+        port = 465,
+        verbose = False
+):
+    
     '''Send an email to a set of addresses, with the option of adding an attachment
 
     Parameters
@@ -39,16 +49,14 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
 
 
     #take care of instances where the to receiving addresses are given in a list or a string
-    if isinstance(to_addresses, list):
-        message['To'] = ', '.join(to_addresses)
-    else:
-        message['To'] = to_addresses
+    message['To'] = ', '.join(to_addresses) if isinstance(to_addresses, list) else to_addresses
 
     #set the message subject
     message['Subject'] = subject
 
     #attach the body of the email as plain text
     message.attach(MIMEText(body, 'plain'))
+
     #create the attachment if present
     if attachment_file:
         if isinstance(attachment_file, (pathlib.Path, str)):
@@ -61,6 +69,8 @@ def send_email(from_address, password, to_addresses, subject, body, attachment_f
             except:
                 part.add_header('Content-Disposition', f'attachment; filename= {os.path.basename(attachment_file)}')
             message.attach(part)
+
+        # if multiple attachments
         elif isinstance(attachment_file, list):
             for f in attachment_file:
                 with open(f, 'rb') as attachment:
