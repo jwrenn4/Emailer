@@ -14,7 +14,13 @@ class Emailer:
     port : int (default 465)
         The port to connect to the smtp server through
     '''
-    def __init__(self, from_address, password, smtp_address = 'smtp.gmail.com', port = 465):
+    def __init__(
+            self,
+            from_address,
+            password,
+            smtp_address = 'smtp.gmail.com',
+            port = 465
+    ):
         self.from_address = from_address
         self.password = password
         self.smtp_address = smtp_address
@@ -56,8 +62,14 @@ class Emailer:
             raise TypeError('port must be integer-valued')
         self._port = value
 
-
-    def send_email(self, to_addresses, subject, message, attachment_file = None, verbose = False):
+    def send_email(
+            self,
+            to_addresses,
+            subject,
+            message,
+            attachment_file = None,
+            verbose = False
+    ):
         '''Send an email
 
         Parameters
@@ -73,4 +85,14 @@ class Emailer:
         verbose : bool (default False)
             If True, prints out to the console after the message was sent
         '''
-        return send_email(self.from_address, self.password, to_addresses, subject, message, attachment_file, self.smtp_address, self.port, verbose)
+        return send_email(
+            self.from_address,
+            self.password,
+            to_addresses,
+            subject,
+            message,
+            attachment_file,
+            self.smtp_address,
+            self.port,
+            verbose
+        )
